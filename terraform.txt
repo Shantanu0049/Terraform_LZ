@@ -1,0 +1,5 @@
+# Values for variables in the GCP Landing Zone
+
+project_id             = "terraform-458410"
+region                 = "us-central1"
+
