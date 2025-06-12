@@ -73,3 +73,30 @@ resource "google_project_iam_binding" "dataproc_bigquery_access" {
     "serviceAccount:${google_service_account.dataproc_account.email}"
   ]
 }
+
+
+
+
+
+# Create custom IAM role
+resource "google_project_iam_custom_role" "custom_role" {
+  role_id     = var.custom_role_id
+  title       = "Custom Role for VM"
+  description = "Custom IAM Role with limited permissions"
+  project     = var.project_id
+  permissions = var.role_permissions
+}
+
+# Create service account for the VM
+resource "google_service_account" "vm_sa" {
+  account_id   = var.account_id
+  display_name = "VM Service Account"
+}
+
+# Attach the custom role to the service account
+resource "google_project_iam_member" "custom_role_binding" {
+  project = var.project_id
+  role    = google_project_iam_custom_role.custom_role.name
+  member  = "serviceAccount:${google_service_account.vm_sa.email}"
+}
+

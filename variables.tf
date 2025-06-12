@@ -64,3 +64,73 @@ variable "bq_table_ids" {
   type        = list(string)
   default     = ["raw_data", "processed_data", "final_output"]
 }
+
+
+
+
+# ------------------
+# IAM Module Variables
+# ------------------
+
+variable "custom_role_id" {
+  description = "ID of the custom IAM role to create"
+  type        = string
+  default     = "customComputeViewer"  # You can customize this
+}
+
+variable "role_permissions" {
+  description = "List of permissions to assign to the custom IAM role"
+  type        = list(string)
+  default     = [
+    "compute.instances.get",
+    "compute.instances.list",
+    "compute.instances.start",
+    "compute.instances.stop"
+  ]
+}
+
+# ------------------
+# VM Module Variables
+# ------------------
+
+variable "instance_name" {
+  description = "Name of the VM instance"
+  type        = string
+  default     = "landing-zone-vm"
+}
+
+variable "machine_type" {
+  description = "Machine type for the VM instance"
+  type        = string
+  default     = "e2-medium"
+}
+
+
+
+variable "bucket_configs" {
+  type = list(object({
+    name                        = string
+    location                    = string
+    storage_class               = string
+    versioning_enabled          = bool
+    uniform_bucket_level_access  = bool
+    uniform_access              = bool
+    public_access_prevention    = string
+    encryption                  = optional(object({
+      kms_key_name = string
+    }))
+    lifecycle_rules = optional(list(object({
+      action = object({
+        type          = string
+        storage_class = optional(string)
+      })
+      condition = object({
+        age                        = optional(number)
+        created_before             = optional(string)
+        with_state                 = optional(string)
+        matches_storage_class      = optional(list(string))
+        num_newer_versions         = optional(number)
+      })
+    })))
+  }))
+}

@@ -14,3 +14,11 @@ output "bigquery_service_account_email" {
   description = "The email of the BigQuery service account"
   value       = google_service_account.bigquery_account.email
 }
+
+output "vm_service_account_email" {
+  value = google_service_account.vm_sa.email
+}
+
+output "service_account_email" {
+  value = google_service_account.vm_sa.email
+}

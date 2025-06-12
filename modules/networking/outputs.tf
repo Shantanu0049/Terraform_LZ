@@ -15,10 +15,10 @@ output "subnet_names" {
   value       = google_compute_subnetwork.subnets[*].name
 }
 
-output "subnet_self_links" {
-  description = "The self-links of subnets"
-  value       = google_compute_subnetwork.subnets[*].self_link
-}
+# output "subnet_self_links" {
+#   description = "The self-links of subnets"
+#   value       = google_compute_subnetwork.subnets[*].self_link
+# }
 
 output "subnet_regions" {
   description = "The regions of subnets"
@@ -28,4 +28,8 @@ output "subnet_regions" {
 output "subnet_cidrs" {
   description = "The CIDR ranges of subnets"
   value       = google_compute_subnetwork.subnets[*].ip_cidr_range
+}
+
+output "subnet_self_links" {
+  value = [for s in google_compute_subnetwork.subnets : s.self_link]
 }

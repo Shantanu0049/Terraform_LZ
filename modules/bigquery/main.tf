@@ -9,20 +9,19 @@ resource "google_bigquery_dataset" "dataset" {
   project                     = var.project_id
   default_table_expiration_ms = 3600000 * 24 * 90 # 90 days
   
-  
   # Access control
   access {
-    role          = "roles/bigquery.dataOwner"
+    role          = "OWNER"
     special_group = "projectOwners"
   }
   
   access {
-    role          = "roles/bigquery.dataViewer"
+    role          = "READER"
     special_group = "projectReaders"
   }
   
   access {
-    role          = "roles/bigquery.dataEditor"
+    role          = "WRITER"
     special_group = "projectWriters"
   }
   
@@ -39,6 +38,7 @@ resource "google_bigquery_table" "tables" {
   table_id   = var.table_ids[count.index]
   project    = var.project_id
   deletion_protection = false
+
   
   # Define schema for each table
   schema = <<EOF
@@ -64,26 +64,26 @@ resource "google_bigquery_table" "tables" {
 ]
 EOF
   
-  # # Optional: Set time partitioning
-  # time_partitioning {
-  #   type  = "DAY"
-  #   field = "created_timestamp"
-  # }
+  # Optional: Set time partitioning
+  time_partitioning {
+    type  = "DAY"
+    field = "created_timestamp"
+  }
   
-  # # Optional: Add clustering
-  # clustering = ["id"]
+  # Optional: Add clustering
+  clustering = ["id"]
   
-  # # Optional: Add description
-  # description = "Table ${var.table_ids[count.index]} for landing zone data"
+  # Optional: Add description
+  description = "Table ${var.table_ids[count.index]} for landing zone data"
   
-  # # Optional: Set labels
-  # labels = {
-  #   environment = "landing-zone"
-  # }
+  # Optional: Set labels
+  labels = {
+    environment = "landing-zone"
+  }
 }
 
 # Optional: Create a BigQuery connection to VPC
-  resource "google_bigquery_connection" "connection" {
+resource "google_bigquery_connection" "connection" {
   count           = 0 # Set to 1 if you want to create a VPC connection
   connection_id   = "landing-zone-connection"
   friendly_name   = "Landing Zone VPC Connection"

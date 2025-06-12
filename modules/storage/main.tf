@@ -1,56 +1,40 @@
-# Storage module - creates GCS buckets
-
-# Create GCS buckets
 resource "google_storage_bucket" "buckets" {
-  count        = var.num_buckets
-  name         = var.bucket_names
-  location      = var.region
+  count                      = length(var.buckets)
+  name                       = var.buckets[count.index].name
+  location                   = var.buckets[count.index].location
+  storage_class              = var.buckets[count.index].storage_class
+  uniform_bucket_level_access = var.buckets[count.index].uniform_access
   force_destroy = true
-  project       = var.project_id
-  
-  
-  
-  # Use Standard storage class
-  storage_class = "STANDARD"
-  
-  # Enable versioning for data protection
+
   versioning {
-    enabled = true
+    enabled = var.buckets[count.index].versioning_enabled
   }
-  
-  # Enable uniform bucket-level access
-  uniform_bucket_level_access = true
 
-  # Set lifecycle rules (example: delete objects older than 30 days)
-  lifecycle_rule {
-    condition {
-      age = 30
-    }
-    action {
-      type = "Delete"
-    }
-  }
-}
+  public_access_prevention = var.buckets[count.index].public_access_prevention
 
-# Configure VPC Service Controls for private access
-resource "google_access_context_manager_service_perimeter" "storage_perimeter" {
-  count          = 0 # Set to 1 if you want to enable VPC Service Controls
-  parent         = "accessPolicies/${var.access_policy_id}"
-  name           = "accessPolicies/${var.access_policy_id}/servicePerimeters/storage_perimeter"
-  perimeter_type = "PERIMETER_TYPE_REGULAR"
-  
-  title          = "Storage Service Perimeter"
-  
-  status {
-    restricted_services = ["storage.googleapis.com"]
-    
-    vpc_accessible_services {
-      enable_restriction = true
-      allowed_services   = ["storage.googleapis.com"]
+  dynamic "encryption" {
+    for_each = var.buckets[count.index].encryption != null ? [1] : []
+    content {
+      default_kms_key_name = var.buckets[count.index].encryption.kms_key_name
     }
-    
-    resources = ["projects/${var.project_number}"]
-    
-    access_levels = ["accessPolicies/${var.access_policy_id}/accessLevels/storage_access_level"]
   }
+
+  dynamic "lifecycle_rule" {
+    for_each = var.buckets[count.index].lifecycle_rules != null ? var.buckets[count.index].lifecycle_rules : []
+    content {
+      action {
+        type          = lifecycle_rule.value.action.type
+        storage_class = lookup(lifecycle_rule.value.action, "storage_class", null)
+      }
+      condition {
+        age                   = lookup(lifecycle_rule.value.condition, "age", null)
+        created_before        = lookup(lifecycle_rule.value.condition, "created_before", null)
+        with_state            = lookup(lifecycle_rule.value.condition, "with_state", null)
+        matches_storage_class = lookup(lifecycle_rule.value.condition, "matches_storage_class", null)
+        num_newer_versions    = lookup(lifecycle_rule.value.condition, "num_newer_versions", null)
+      }
+    }
+  }
+
+  depends_on = [google_storage_bucket.buckets]
 }
