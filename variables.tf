@@ -20,7 +20,7 @@ variable "zone" {
 variable "network_name" {
   description = "The name of the VPC network"
   type        = string
-  default     = "landing-zone-vpc"
+  default     = "landing-zone-vpc-testing"
 }
 
 variable "subnet_names" {
@@ -50,7 +50,7 @@ variable "bucket_names" {
 variable "dataproc_cluster_name" {
   description = "Name of the Dataproc cluster"
   type        = string
-  default     = "landing-zone-cluster"
+  default     = "landing-zone-cluster-testing"
 }
 
 variable "bq_dataset_id" {
@@ -96,7 +96,7 @@ variable "role_permissions" {
 variable "instance_name" {
   description = "Name of the VM instance"
   type        = string
-  default     = "landing-zone-vm"
+  default     = "landing-zone-vm-testing"
 }
 
 variable "machine_type" {

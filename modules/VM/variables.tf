@@ -21,6 +21,7 @@ variable "machine_type" {
 variable "service_account_email" {
   description = "The service account email to attach to the VM"
   type        = string
+  default = "shantanu.gundge@atgeirsolutions.com"
 }
 
 variable "subnet" {

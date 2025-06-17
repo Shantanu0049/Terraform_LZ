@@ -83,7 +83,7 @@ def updated_tfvars_file(services, bucket_configs, iam_inputs):
 
         if "networking" in services:
             base_lines += [
-                'network_name           = "landing-zone-vpc1"',
+                'network_name           = "landing-zone-vpc-testing"',
                 'subnet_names           = ["database-subnet", "processing-subnet", "storage-subnet"]',
                 'subnet_cidrs           = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]',
                 'subnet_regions         = ["us-central1", "us-central1", "us-central1"]'
@@ -116,11 +116,11 @@ def updated_tfvars_file(services, bucket_configs, iam_inputs):
             base_lines.append(full_block)
 
         if "dataproc" in services:
-            base_lines.append('dataproc_cluster_name  = "landing-zone-cluster1"')
+            base_lines.append('dataproc_cluster_name  = "landing-zone-cluster-testing"')
 
         if "bigquery" in services:
             base_lines += [
-                'bq_dataset_id          = "landing_zone_dataset1"',
+                'bq_dataset_id          = "landing_zone_dataset_testing"',
                 'bq_table_ids           = ["raw_data", "processed_data", "final_output"]'
             ]
 
