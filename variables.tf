@@ -3,6 +3,7 @@
 variable "project_id" {
   description = "The GCP project ID"
   type        = string
+  default     = "terraform-458410" 
 }
 
 variable "region" {
@@ -20,13 +21,13 @@ variable "zone" {
 variable "network_name" {
   description = "The name of the VPC network"
   type        = string
-  default     = "landing-zone-vpc-testing"
+  default     = "landing-zone-vpc-testing12"
 }
 
 variable "subnet_names" {
   description = "Names of subnets to create"
   type        = list(string)
-  default     = ["database-subnet", "processing-subnet", "storage-subnet"]
+  default     = ["database-subnet12", "processing-subnet12", "storage-subnet12"]
 }
 
 variable "subnet_cidrs" {
@@ -44,25 +45,25 @@ variable "subnet_regions" {
 variable "bucket_names" {
   description = "Names of GCS buckets to create"
   type        = list(string)
-  default     = ["landing-zone-data", "landing-zone-processed", "landing-zone-output"]
+  default     = ["landing-zone-data12", "landing-zone-processed12", "landing-zone-output12"]
 }
 
 variable "dataproc_cluster_name" {
   description = "Name of the Dataproc cluster"
   type        = string
-  default     = "landing-zone-cluster-testing"
+  default     = "landing-zone-cluster-testing12"
 }
 
 variable "bq_dataset_id" {
   description = "ID of the BigQuery dataset"
   type        = string
-  default     = "landing_zone_dataset"
+  default     = "landing_zone_dataset12"
 }
 
 variable "bq_table_ids" {
   description = "IDs of BigQuery tables to create"
   type        = list(string)
-  default     = ["raw_data", "processed_data", "final_output"]
+  default     = ["raw_data12", "processed_data12", "final_output12"]
 }
 
 
