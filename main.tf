@@ -1,16 +1,5 @@
 # Auto-generated Terraform configuration
 
-module "vm" {
-  source                = "./modules/vm"
-  project_id            = var.project_id
-  zone                  = var.zone
-  instance_name         = var.instance_name
-  machine_type          = var.machine_type
-  service_account_email = module.iam.service_account_email
-  subnet                = module.networking.subnet_self_links[0]
-  depends_on            = [module.networking, module.iam]
-}
-
 module "networking" {
   source         = "./modules/networking"
   project_id     = var.project_id
@@ -59,5 +48,16 @@ module "bigquery" {
   table_ids        = var.bq_table_ids
   subnet_self_link = module.networking.subnet_self_links[0]
   depends_on       = [module.networking, module.iam]
+}
+
+module "vm" {
+  source                = "./modules/vm"
+  project_id            = var.project_id
+  zone                  = var.zone
+  instance_name         = var.instance_name
+  machine_type          = var.machine_type
+  service_account_email = module.iam.service_account_email
+  subnet                = module.networking.subnet_self_links[0]
+  depends_on            = [module.networking, module.iam]
 }
 

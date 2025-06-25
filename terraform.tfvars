@@ -4,12 +4,12 @@ network_name           = "landing-zone-vpc-testing"
 subnet_names           = ["database-subnet", "processing-subnet", "storage-subnet"]
 subnet_cidrs           = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
 subnet_regions         = ["us-central1", "us-central1", "us-central1"]
-custom_role_id         = "qwert"
-role_permissions       = ["storage.objects.get", "storage.buckets.get"]
+custom_role_id         = "wejfn"
+role_permissions       = ["storage.objects.list", "storage.buckets.get", "storage.buckets.list"]
 bucket_configs = [
 {
-      name                      = ""
-      location                  = ""
+      name                      = "sedrfgh"
+      location                  = "us-central1"
       storage_class             = "STANDARD"
       versioning_enabled        = false
       uniform_bucket_level_access = false
