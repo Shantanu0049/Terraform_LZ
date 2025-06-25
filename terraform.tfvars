@@ -8,7 +8,7 @@ custom_role_id         = "testing006543"
 role_permissions       = ["storage.objects.list", "storage.buckets.get"]
 bucket_configs = [
 {
-      name                      = "atgeir-testing00455555555555"
+      name                      = "atgeir-testing004555555555"
       location                  = "us-central1"
       storage_class             = "STANDARD"
       versioning_enabled        = false
