@@ -8,3 +8,6 @@ steps:
 - name: 'hashicorp/terraform:1.5.0'
   entrypoint: bash
   args: ['-c','terraform apply -auto-approve plan.tfplan']
+
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
