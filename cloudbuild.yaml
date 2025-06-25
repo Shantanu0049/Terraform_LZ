@@ -1,0 +1,10 @@
+steps:
+- name: 'hashicorp/terraform:1.5.0'
+  entrypoint: bash
+  args: ['-c','terraform init']
+- name: 'hashicorp/terraform:1.5.0'
+  entrypoint: bash
+  args: ['-c','terraform plan -out=plan.tfplan']
+- name: 'hashicorp/terraform:1.5.0'
+  entrypoint: bash
+  args: ['-c','terraform apply -auto-approve plan.tfplan']
