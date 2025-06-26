@@ -37,4 +37,9 @@ resource "google_storage_bucket" "buckets" {
   }
 
   depends_on = [google_storage_bucket.buckets]
+
+  lifecycle {
+    prevent_destroy = true
+    create_before_destroy = true
+  }
 }

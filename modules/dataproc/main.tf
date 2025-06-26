@@ -6,6 +6,10 @@ resource "google_dataproc_cluster" "cluster" {
   region   = var.region
   project  = var.project_id
   
+  lifecycle {
+    create_before_destroy = true
+    prevent_destroy = true
+  }
   
   # Associate with the proper subnet
   cluster_config {
