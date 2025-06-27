@@ -27,7 +27,7 @@ module "dataproc" {
   region           = var.region
   cluster_name     = var.dataproc_cluster_name
   subnet_self_link = module.networking.subnet_self_links[1]
-  bucket_name = module.storage.bucket_names[0]
+  bucket_name      = module.storage.bucket_names[0]
   depends_on       = [module.networking, module.iam, module.storage]
 }
 
@@ -51,13 +51,11 @@ module "iam" {
 }
 
 module "storage" {
-  source                     = "./modules/storage"
-  project_id                 = var.project_id
-  region                     = var.region
-  buckets                = var.bucket_configs
-  subnet_self_link           = module.networking.subnet_self_links[2]
-  depends_on                 = [module.networking, module.iam]
-  
-
+  source           = "./modules/storage"
+  project_id       = var.project_id
+  region           = var.region
+  buckets          = var.bucket_configs
+  subnet_self_link = module.networking.subnet_self_links[2]
+  depends_on       = [module.networking, module.iam]
 }
 
