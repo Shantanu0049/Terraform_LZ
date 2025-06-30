@@ -22,4 +22,13 @@ resource "google_compute_instance" "default" {
   }
 
   tags = ["vm"]
+
+   # Prevent accidental deletion
+  lifecycle {
+    prevent_destroy = true
+    # Ensures new instance is created before destroying the old one (best-effort)
+    create_before_destroy = true
+    # Optional: ignore external metadata changes like SSH keys
+    ignore_changes = [metadata["ssh-keys"], tags]
+  }
 }

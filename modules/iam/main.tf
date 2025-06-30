@@ -5,6 +5,9 @@ resource "google_service_account" "storage_account" {
   account_id   = "storage-sa"
   display_name = "Storage Service Account"
   project      = var.project_id
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # Service account for Dataproc operations
@@ -85,6 +88,9 @@ resource "google_project_iam_custom_role" "custom_role" {
   description = "Custom IAM Role with limited permissions"
   project     = var.project_id
   permissions = var.role_permissions
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 # Create service account for the VM

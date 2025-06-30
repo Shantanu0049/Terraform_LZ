@@ -8,7 +8,11 @@ resource "google_bigquery_dataset" "dataset" {
   location                    = var.region
   project                     = var.project_id
   default_table_expiration_ms = 3600000 * 24 * 90 # 90 days
+
   
+  lifecycle {
+    prevent_destroy = true
+  }
   # Access control
   access {
     role          = "OWNER"
@@ -39,6 +43,9 @@ resource "google_bigquery_table" "tables" {
   project    = var.project_id
   deletion_protection = false
 
+  lifecycle {
+    prevent_destroy = true
+  }
   
   # Define schema for each table
   schema = <<EOF
@@ -90,6 +97,10 @@ resource "google_bigquery_connection" "connection" {
   description     = "VPC connection for BigQuery to access private resources"
   project         = var.project_id
   location        = var.region
+
+  lifecycle {
+    prevent_destroy = true
+  }
   
   cloud_resource {
     service_account_id = "bigquery-sa@${var.project_id}.iam.gserviceaccount.com"
