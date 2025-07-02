@@ -49,7 +49,7 @@ module "bigquery" {
 }
 
 module "vm" {
-  source                = "./modules/vm"
+  source                = "./modules/VM"
   project_id            = var.project_id
   zone                  = var.zone
   instance_name         = var.instance_name
