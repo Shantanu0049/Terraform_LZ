@@ -5,10 +5,10 @@ subnet_names           = ["database-subnet","processing-subnet","storage-subnet"
 subnet_cidrs           = ["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
 subnet_regions         = ["us-central1","us-central1","us-central1"]
 custom_role_id = "wsdcf"
-role_permissions = ["storage.objects.list", "storage.buckets.get"]
+role_permissions = ["storage.objectViewer", "storage.objectLister"]
 bucket_configs = [
 {
-  name                      = "wdf"
+  name                      = "atgeir_testing"
   location                  = "us-central1"
   storage_class             = "STANDARD"
   versioning_enabled        = false

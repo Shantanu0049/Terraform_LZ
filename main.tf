@@ -1,5 +1,16 @@
 # Auto-generated Terraform configuration
 
+module "vm" {
+  source                = "./modules/vm"
+  project_id            = var.project_id
+  zone                  = var.zone
+  instance_name         = var.instance_name
+  machine_type          = var.machine_type
+  service_account_email = module.iam.service_account_email
+  subnet                = module.networking.subnet_self_links[0]
+  depends_on            = [module.networking, module.iam]
+}
+
 module "networking" {
   source         = "./modules/networking"
   project_id     = var.project_id
@@ -10,15 +21,6 @@ module "networking" {
   subnet_regions = var.subnet_regions
 }
 
-module "storage" {
-  source           = "./modules/storage"
-  project_id       = var.project_id
-  region           = var.region
-  buckets          = var.bucket_configs
-  subnet_self_link = module.networking.subnet_self_links[2]
-  depends_on       = [module.networking, module.iam]
-}
-
 module "iam" {
   source           = "./modules/iam"
   account_id       = "vm-service-account"
@@ -26,6 +28,15 @@ module "iam" {
   custom_role_id   = var.custom_role_id
   role_permissions = var.role_permissions
   depends_on       = [module.networking]
+}
+
+module "storage" {
+  source           = "./modules/storage"
+  project_id       = var.project_id
+  region           = var.region
+  buckets          = var.bucket_configs
+  subnet_self_link = module.networking.subnet_self_links[2]
+  depends_on       = [module.networking, module.iam]
 }
 
 module "dataproc" {
@@ -46,16 +57,5 @@ module "bigquery" {
   table_ids        = var.bq_table_ids
   subnet_self_link = module.networking.subnet_self_links[0]
   depends_on       = [module.networking, module.iam]
-}
-
-module "vm" {
-  source                = "./modules/vm"
-  project_id            = var.project_id
-  zone                  = var.zone
-  instance_name         = var.instance_name
-  machine_type          = var.machine_type
-  service_account_email = module.iam.service_account_email
-  subnet                = module.networking.subnet_self_links[0]
-  depends_on            = [module.networking, module.iam]
 }
 
