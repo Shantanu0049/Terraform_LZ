@@ -11,6 +11,16 @@ module "vm" {
   depends_on            = [module.networking, module.iam]
 }
 
+module "networking" {
+  source         = "./modules/networking"
+  project_id     = var.project_id
+  region         = var.region
+  network_name   = var.network_name
+  subnet_names   = var.subnet_names
+  subnet_cidrs   = var.subnet_cidrs
+  subnet_regions = var.subnet_regions
+}
+
 module "iam" {
   source           = "./modules/iam"
   account_id       = "vm-service-account"
@@ -47,15 +57,5 @@ module "bigquery" {
   table_ids        = var.bq_table_ids
   subnet_self_link = module.networking.subnet_self_links[0]
   depends_on       = [module.networking, module.iam]
-}
-
-module "networking" {
-  source         = "./modules/networking"
-  project_id     = var.project_id
-  region         = var.region
-  network_name   = var.network_name
-  subnet_names   = var.subnet_names
-  subnet_cidrs   = var.subnet_cidrs
-  subnet_regions = var.subnet_regions
 }
 
