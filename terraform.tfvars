@@ -4,8 +4,8 @@ network_name           = "landing-zone-vpc-testing"
 subnet_names           = ["database-subnet","processing-subnet","storage-subnet"]
 subnet_cidrs           = ["10.0.1.0/24","10.0.2.0/24","10.0.3.0/24"]
 subnet_regions         = ["us-central1","us-central1","us-central1"]
-custom_role_id = "sd"
-role_permissions = ["storage.objects.list", "storage.objects.get"]
+custom_role_id = "qwerfgh"
+role_permissions = ["storage.objects.get", "storage.objects.list"]
 bucket_configs = [
 {
   name                      = "sd"
