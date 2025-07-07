@@ -17,6 +17,7 @@ bucket_configs = [
   force_destroy            = true
 }
 ]
+# testing
 dataproc_cluster_name = "landing-zone-cluster-testing"
 bq_dataset_id = "landing_zone_dataset_testing"
 bq_table_ids = ["raw_data","processed_data","final_output"]
